@@ -8,14 +8,9 @@ import {
   signOut as firebaseSignOut,
   updateProfile,
 } from 'firebase/auth';
-import {
-  doc,
-  getDoc,
-  serverTimestamp,
-  setDoc,
-  updateDoc,
-} from 'firebase/firestore';
+import { doc, getDoc, serverTimestamp, setDoc, updateDoc } from 'firebase/firestore';
 import { ADMIN_EMAIL, auth, db, googleProvider } from '../lib/firebase';
+import { supabase, isSupabaseConfigured } from '../lib/supabase';
 import { UserProfile, UserRole, UserStatus } from '../types';
 
 interface AuthContextType {
@@ -46,9 +41,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const snap = await getDoc(userRef);
 
     if (snap.exists()) {
-      setUserProfile({ uid: firebaseUser.uid, ...(snap.data() as Omit<UserProfile, 'uid'>) });
+      const profileData = { uid: firebaseUser.uid, ...(snap.data() as Omit<UserProfile, 'uid'>) };
+      setUserProfile(profileData);
+      
+      // Background Sync to Supabase
+      if (isSupabaseConfigured && supabase) {
+        supabase.from('users').upsert({
+          uid: profileData.uid,
+          email: profileData.email,
+          display_name: profileData.display_name,
+          role: profileData.role,
+          status: profileData.status,
+          photo_url: profileData.photo_url,
+          created_at: profileData.created_at
+        }).then(({ error }) => {
+          if (error) console.warn('[Supabase Sync Error]:', error.message);
+        });
+      }
     } else {
-      const isOwnerUser = firebaseUser.email === ADMIN_EMAIL; // Admin email becomes owner by default here
+      const isOwnerUser = firebaseUser.email === ADMIN_EMAIL;
       const newProfile: Omit<UserProfile, 'uid'> = {
         email: firebaseUser.email || '',
         role: (isOwnerUser ? 'owner' : 'user') as UserRole,
@@ -64,6 +75,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       };
       await setDoc(userRef, newProfile);
       setUserProfile({ uid: firebaseUser.uid, ...newProfile });
+
+      // Sync new user to Supabase
+      if (isSupabaseConfigured && supabase) {
+        await supabase.from('users').insert({
+          uid: firebaseUser.uid,
+          email: newProfile.email,
+          display_name: newProfile.display_name,
+          role: newProfile.role,
+          status: newProfile.status,
+          photo_url: newProfile.photo_url,
+          created_at: newProfile.created_at
+        });
+      }
     }
   }, []);
 
@@ -109,6 +133,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const userRef = doc(db, 'users', user.uid);
     const { uid, ...rest } = data as UserProfile;
     await updateDoc(userRef, { ...rest });
+    
+    // Background Sync Profile Update to Supabase
+    if (isSupabaseConfigured && supabase) {
+      const syncData: any = {};
+      if (data.display_name) syncData.display_name = data.display_name;
+      if (data.photo_url) syncData.photo_url = data.photo_url;
+      if (data.role) syncData.role = data.role;
+      if (data.status) syncData.status = data.status;
+      
+      if (Object.keys(syncData).length > 0) {
+        await supabase.from('users').update(syncData).eq('uid', user.uid);
+      }
+    }
+    
     setUserProfile((prev) => (prev ? { ...prev, ...data } : prev));
   };
 
