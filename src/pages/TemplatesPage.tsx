@@ -6,6 +6,7 @@ import { FileText, Plus, Pencil, Trash2, Copy, Check, Search, Download } from 'l
 import { toast } from 'sonner';
 import { db } from '../lib/firebase';
 import { supabase, isSupabaseConfigured } from '../lib/supabase';
+import { upload } from '@vercel/blob/client';
 import { useAuth } from '../contexts/AuthContext';
 import { Template, Platform } from '../types';
 import Modal from '../components/ui/Modal';
@@ -61,11 +62,27 @@ export default function TemplatesPage() {
     if (!file) return;
     setUploading(true);
     try {
-      const fileName = `templates/${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
-      const { error } = await supabase.storage.from('velion-storage').upload(fileName, file);
+      const fileName = `${Date.now()}_${file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`;
+      
+      // Try Vercel Blob first
+      try {
+        const newBlob = await upload(fileName, file, {
+          access: 'public',
+          handleUploadUrl: '/api/upload',
+        });
+        setForm(f => ({ ...f, file_url: newBlob.url }));
+        toast.success('File uploaded to Vercel Blob successfully');
+        setUploading(false);
+        return;
+      } catch (vErr) {
+        console.warn('Vercel Blob failed or not configured, falling back to Supabase:', vErr);
+      }
+
+      // Fallback to Supabase Storage
+      const { error } = await supabase.storage.from('velion-storage').upload(`templates/${fileName}`, file);
       if (error) throw error;
       
-      const { data } = supabase.storage.from('velion-storage').getPublicUrl(fileName);
+      const { data } = supabase.storage.from('velion-storage').getPublicUrl(`templates/${fileName}`);
       setForm(f => ({ ...f, file_url: data.publicUrl }));
       toast.success('File uploaded to Supabase successfully');
     } catch (err: any) {
