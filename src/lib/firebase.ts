@@ -20,6 +20,6 @@ export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
 export const db = getFirestore(app, FIRESTORE_DB_ID);
 export const storage = getStorage(app);
-export const ADMIN_EMAIL = 'blushyavro@gmail.com';
+export const ADMIN_EMAIL = 'avayr2424@gmail.com';
 
 export default app;

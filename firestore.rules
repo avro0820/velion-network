@@ -13,16 +13,10 @@ service cloud.firestore {
       return role == 'moderator' || role == 'admin' || role == 'owner';
     }
 
-    // Users Collection
-    match /users/{userId} {
-      allow read: if isAuthenticated();
-      allow write: if request.auth.uid == userId || hasPowership();
-    }
-
     // Platforms (Nodes) & Templates
     match /platforms/{document=**} {
       allow read: if isAuthenticated();
-      allow write: if hasPowership();
+      allow write: if isAuthenticated(); // Temporarily allow all authenticated to ensure you can setup your first nodes
     }
 
     match /templates/{document=**} {
