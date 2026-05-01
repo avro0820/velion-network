@@ -1,0 +1,85 @@
+{
+  "entities": {
+    "Platform": {
+      "title": "Platform",
+      "description": "A target platform for security reporting.",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "logo_url": { "type": "string", "format": "uri" },
+        "official_link": { "type": "string", "format": "uri" },
+        "sector": { "type": "string" },
+        "execution_protocol": { "type": "array", "items": { "type": "string" } },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["name", "logo_url", "official_link"]
+    },
+    "Template": {
+      "title": "Template",
+      "description": "A reporting template for a specific platform.",
+      "type": "object",
+      "properties": {
+        "platform_id": { "type": "string" },
+        "category": { "type": "string" },
+        "text": { "type": "string" },
+        "created_at": { "type": "string", "format": "date-time" }
+      },
+      "required": ["platform_id", "category", "text"]
+    },
+    "User": {
+      "title": "UserProfile",
+      "description": "A user's identity and clearance profile.",
+      "type": "object",
+      "properties": {
+        "email": { "type": "string", "format": "email" },
+        "role": { "type": "string", "enum": ["admin", "moderator", "user"] },
+        "status": { "type": "string", "enum": ["pending", "approved", "suspended"] },
+        "approved_platforms": { "type": "array", "items": { "type": "string" } },
+        "has_global_access": { "type": "boolean" },
+        "display_name": { "type": "string" },
+        "photo_url": { "type": "string", "format": "uri" },
+        "phone_number": { "type": "string" },
+        "date_of_birth": { "type": "string" },
+        "username": { "type": "string" },
+        "bio": { "type": "string" },
+        "is_suspended": { "type": "boolean" },
+        "suspended_until": { "type": "string", "format": "date-time" },
+        "created_at": { "type": "string", "format": "date-time" },
+        "system_message": { "type": "string" }
+      },
+      "required": ["email", "role", "status"]
+    },
+    "ChatMessage": {
+      "title": "ChatMessage",
+      "description": "A message in a secure chat channel.",
+      "type": "object",
+      "properties": {
+        "chat_id": { "type": "string" },
+        "sender_id": { "type": "string" },
+        "sender_email": { "type": "string", "format": "email" },
+        "text": { "type": "string" },
+        "image_url": { "type": "string", "format": "uri" },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "is_admin": { "type": "boolean" }
+      }
+    }
+  },
+  "firestore": {
+    "/platforms/{platformId}": {
+      "schema": "Platform",
+      "description": "Collection of social media platforms."
+    },
+    "/templates/{templateId}": {
+      "schema": "Template",
+      "description": "Collection of reporting templates."
+    },
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Collection of user profiles and roles."
+    },
+    "/chat_messages/{messageId}": {
+      "schema": "ChatMessage",
+      "description": "Collection of secure chat messages."
+    }
+  }
+}

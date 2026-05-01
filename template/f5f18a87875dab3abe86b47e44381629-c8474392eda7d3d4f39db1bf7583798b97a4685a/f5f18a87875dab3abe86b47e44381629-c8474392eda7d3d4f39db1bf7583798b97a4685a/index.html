@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEZAcademy — Cosmic Nav</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <!-- CURSOR -->
+    <div class="cursor" id="cursor"></div>
+    <div class="cursor-ring" id="cursorTrail"></div>
+
+    <!-- TOOLTIP -->
+    <div class="nav-tooltip" id="tooltip"></div>
+
+    <!-- BG STARS -->
+    <canvas id="bg-stars"></canvas>
+
+    <!-- AMBIENT ORBS -->
+    <div class="nebula-orb orb1"></div>
+    <div class="nebula-orb orb2"></div>
+    <div class="nebula-orb orb3"></div>
+
+    <!-- SCENE -->
+    <div class="scene">
+        <div class="nav-wrapper">
+
+            <!-- BRAND -->
+            <div class="brand" data-text="FEZAcademy">FEZAcademy</div>
+            <div class="brand-line"></div>
+
+            <!-- NAV CAPSULE -->
+            <nav class="nav-capsule" id="navCapsule">
+                <canvas id="nav-stars"></canvas>
+
+                <!-- corner accents -->
+                <div class="corner corner-tl"></div>
+                <div class="corner corner-tr"></div>
+                <div class="corner corner-bl"></div>
+                <div class="corner corner-br"></div>
+
+                <!-- NAV ITEMS -->
+                <div class="nav-items">
+
+                    <!-- HOME -->
+                    <div class="nav-item active" data-label="Portal Hub">
+                        <div class="nav-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z" />
+                                <path d="M9 21V12h6v9" />
+                            </svg>
+                        </div>
+                        <span class="nav-label">Home</span>
+                        <div class="active-dot"></div>
+                    </div>
+
+                    <!-- EXPLORE -->
+                    <div class="nav-item" data-label="Explore Cosmos">
+                        <div class="nav-icon">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="12" cy="12" r="9" />
+                                <path d="M12 3a14.5 14.5 0 010 18M3 12h18" />
+                                <path d="M3.6 7h16.8M3.6 17h16.8" />
+                            </svg>
+                        </div>
+                        <span class="nav-label">Explore</span>
+                        <div class="active-dot"></div>
+                    </div>
+
+                    <!-- LEARN -->
+                    <div class="nav-item" data-label="Academy Core">
+                        <div class="nav-icon">
+                            <svg viewBox="0 0 24 24">
+                                <path d="M12 3L2 8l10 5 10-5-10-5z" />
+                                <path d="M2 17l10 5 10-5" />
+                                <path d="M2 12l10 5 10-5" />
+                            </svg>
+                        </div>
+                        <span class="nav-label">Learn</span>
+                        <div class="active-dot"></div>
+                    </div>
+
+                    <div class="nav-divider"></div>
+
+                    <!-- COURSES -->
+                    <div class="nav-item" data-label="Neural Courses">
+                        <div class="nav-icon">
+                            <svg viewBox="0 0 24 24">
+                                <rect x="3" y="3" width="7" height="7" rx="1" />
+                                <rect x="14" y="3" width="7" height="7" rx="1" />
+                                <rect x="14" y="14" width="7" height="7" rx="1" />
+                                <rect x="3" y="14" width="7" height="7" rx="1" />
+                            </svg>
+                        </div>
+                        <span class="nav-label">Courses</span>
+                        <div class="active-dot"></div>
+                    </div>
+
+                    <!-- COMMUNITY -->
+                    <div class="nav-item" data-label="Star Collective">
+                        <div class="nav-icon">
+                            <svg viewBox="0 0 24 24">
+                                <circle cx="8" cy="9" r="3" />
+                                <circle cx="16" cy="9" r="3" />
+                                <path d="M2 20a6 6 0 0112 0" />
+                                <path d="M16 15a6 6 0 016 5" />
+                            </svg>
+                        </div>
+                        <span class="nav-label">Community</span>
+                        <div class="active-dot"></div>
+                    </div>
+
+                    <div class="nav-divider"></div>
+
+                    <!-- CTA -->
+                    <button class="nav-cta" data-label="Begin Journey">Launch&nbsp;▶</button>
+
+                </div>
+            </nav>
+
+        </div>
+    </div>
+
+    <script src="script.js">
+    </script>
+</body>
+
+</html>

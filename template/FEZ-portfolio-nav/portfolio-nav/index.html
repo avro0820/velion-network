@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FEZ-expand-nav</title>
+    <!-- Google Fonts: Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ==========================================================================
+           CSS Variables & Global Styles
+           ========================================================================== */
+        :root {
+            --bg-dark: #0f051d;
+            /* Background of the page */
+            --nav-bg: #1a0b2e;
+            /* Navbar background */
+            --accent: #a855f7;
+            /* Bright purple accent */
+            --accent-glow: rgba(168, 85, 247, 0.4);
+            --text-white: #ffffff;
+            --text-dim: #94a3b8;
+            --transition: 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            --nav-height: 70px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-dark);
+            height: 200vh;
+            /* For scrolling demonstration */
+            display: flex;
+            justify-content: center;
+            /* Center horizontally */
+        }
+
+        /* ==========================================================================
+           Navbar Container
+           ========================================================================== */
+        .header {
+            position: fixed;
+            top: 20px;
+            width: 95%;
+            max-width: 1200px;
+            height: var(--nav-height);
+            background-color: var(--nav-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            z-index: 9999;
+        }
+
+        /* Brand / Logo Styling */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .logo {
+            width: 40px;
+        }
+
+        .brand-name {
+            color: var(--text-white);
+            font-weight: 700;
+            font-size: 1.2rem;
+            letter-spacing: -0.5px;
+        }
+
+        /* ==========================================================================
+           Navigation List
+           ========================================================================== */
+        .nav-list {
+            list-style: none;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .nav-item {
+            position: relative;
+        }
+
+        /* The Link/Button Style */
+        .nav-link {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-dim);
+            background: rgba(255, 255, 255, 0.03);
+            height: 45px;
+            min-width: 45px;
+            /* Perfect circle initially */
+            padding: 0 12px;
+            border-radius: 25px;
+            transition: var(--transition);
+            overflow: hidden;
+            border: 1px solid transparent;
+        }
+
+        /* Icon Styling */
+        .icon {
+            min-width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Text Label (Hidden by default) */
+        .label {
+            max-width: 0;
+            opacity: 0;
+            white-space: nowrap;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: 0.7s;
+            padding-left: 0;
+        }
+
+        /* ==========================================================================
+           Hover Animations (Slide Out)
+           ========================================================================== */
+        .nav-link:hover {
+            min-width: 110px;
+            /* Expands width */
+            background-color: var(--accent);
+            color: var(--text-white);
+            box-shadow: 0 0 20px var(--accent-glow);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .nav-link:hover .label {
+            max-width: 150px;
+            /* Reveal text */
+            opacity: 1;
+            padding-left: 10px;
+        }
+
+        /* Specialized CTA (Optional: Last item looks different) */
+        .nav-item:last-child .nav-link {
+            background: linear-gradient(135deg, #6366f1, var(--accent));
+            color: white;
+            min-width: 120px;
+        }
+
+        .nav-item:last-child .label {
+            max-width: 150px;
+            opacity: 1;
+            padding-left: 10px;
+        }
+
+        /* ==========================================================================
+           Mobile Responsiveness
+           ========================================================================== */
+        @media (max-width: 768px) {
+            .header {
+                padding: 0 15px;
+            }
+
+            .brand-name {
+                display: none;
+                /* Only show logo on small screens */
+            }
+
+            .nav-list {
+                gap: 8px;
+            }
+
+            .label {
+                display: none;
+                /* Icons only on mobile for space */
+            }
+
+            .nav-link:hover {
+                min-width: 45px;
+            }
+
+            .nav-item:last-child .nav-link {
+                min-width: 45px;
+            }
+
+        }
+
+        @media (max-width: 432px) {
+            .nav-item {
+                max-width: 20px;
+            }
+
+            .nav-link .icon svg {
+                width: 16px;
+            }
+
+            .nav-list {
+                gap: 32px;
+                min-width: 100%;
+            }
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <!-- Logo Section -->
+        <a href="#" class="brand">
+            <img src="logo.png" class="logo" alt="FEZ Academy logo">
+            <span class="brand-name">FEZAcademy</span>
+        </a>
+
+        <!-- Main Navigation -->
+        <nav>
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                fill="#FFFFFF">
+                                <path
+                                    d="M240-200h120v-240h240v240h120v-360L480-740 240-560v360Zm-80 80v-480l320-240 320 240v480H520v-240h-80v240H160Zm320-350Z" />
+                            </svg>
+                        </div>
+                        <span class="label">Home</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                fill="#FFFFFF">
+                                <path
+                                    d="M80-160q-33 0-56.5-23.5T0-240h160q-33 0-56.5-23.5T80-320v-440q0-33 23.5-56.5T160-840h640q33 0 56.5 23.5T880-760v440q0 33-23.5 56.5T800-240h160q0 33-23.5 56.5T880-160H80Zm428.5-51.5Q520-223 520-240t-11.5-28.5Q497-280 480-280t-28.5 11.5Q440-257 440-240t11.5 28.5Q463-200 480-200t28.5-11.5ZM160-320h640v-440H160v440Zm0 0v-440 440Z" />
+                            </svg>
+                        </div>
+                        <span class="label">Work</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                fill="#FFFFFF">
+                                <path
+                                    d="M240-280 40-480l200-200 56 56-143 144 143 144-56 56Zm178 132-76-24 200-640 76 24-200 640Zm302-132-56-56 143-144-143-144 56-56 200 200-200 200Z" />
+                            </svg>
+                        </div>
+                        <span class="label">Skills</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                fill="#FFFFFF">
+                                <path
+                                    d="M160-160q-33 0-56.5-23.5T80-240v-480q0-33 23.5-56.5T160-800h640q33 0 56.5 23.5T880-720v480q0 33-23.5 56.5T800-160H160Zm320-280L160-640v400h640v-400L480-440Zm0-80 320-200H160l320 200ZM160-640v-80 480-400Z" />
+                            </svg>
+                        </div>
+                        <span class="label">Contact</span>
+                    </a>
+                </li>
+                <!-- Call to Action -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <div class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
+                                fill="#FFFFFF">
+                                <path
+                                    d="M160-280v80h640v-80H160Zm120-440v-80q0-33 23.5-56.5T360-880h240q33 0 56.5 23.5T680-800v80h120q33 0 56.5 23.5T880-640v440q0 33-23.5 56.5T800-120H160q-33 0-56.5-23.5T80-200v-440q0-33 23.5-56.5T160-720h120ZM160-400h640v-240H680v80h-80v-80H360v80h-80v-80H160v240Zm200-320h240v-80H360v80ZM160-200v-440 80-80 80-80 440Z" />
+                            </svg>
+                        </div>
+                        <span class="label">Hire Me</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Content Mockup -->
+    <div style="margin-top: 150px; color: #94a3b8; text-align: center;">
+        <h1 style="color: white; font-size: 3rem; margin-bottom: 20px;">FEZ Academy</h1>
+        <p>Enjoy coding! 💜✨</p>
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,385 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+
+:root {
+  --bg-dark: #0f001d;
+  --card-bg: #1a0033;
+  --primary-purple: #6a0ded;
+  --secondary-purple: #8b2cf5;
+  --text-white: #ffffff;
+  --text-gray: #b3b3b3;
+  --transition-speed: 0.6s;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: var(--bg-dark);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  overflow-x: hidden;
+  padding: 20px;
+}
+
+.container {
+  background-color: var(--card-bg);
+  border-radius: 20px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+  position: relative;
+  overflow: hidden;
+  width: 850px;
+  max-width: 100%;
+  min-height: 550px;
+  transition: all 0.3s ease;
+}
+
+.form-container {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  transition: all var(--transition-speed) ease-in-out;
+}
+
+.sign-in-container {
+  left: 0;
+  width: 50%;
+  z-index: 2;
+}
+
+.container.active .sign-in-container {
+  transform: translateX(100%);
+}
+
+.sign-up-container {
+  left: 0;
+  width: 50%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.container.active .sign-up-container {
+  transform: translateX(100%);
+  opacity: 1;
+  z-index: 5;
+  animation: show 0.6s;
+}
+
+@keyframes show {
+  0%,
+  49.99% {
+    opacity: 0;
+    z-index: 1;
+  }
+
+  50%,
+  100% {
+    opacity: 1;
+    z-index: 5;
+  }
+}
+
+form {
+  background-color: var(--card-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  height: 100%;
+  text-align: center;
+}
+
+h1 {
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: var(--text-white);
+  font-size: 2rem;
+}
+
+.social-container {
+  margin: 20px 0;
+}
+
+.social-container a {
+  border: 1px solid #330066;
+  border-radius: 50%;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 8px;
+  height: 40px;
+  width: 40px;
+  color: var(--text-white);
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.social-container a:hover {
+  background-color: var(--primary-purple);
+  border-color: var(--primary-purple);
+  transform: translateY(-3px);
+}
+
+span {
+  font-size: 12px;
+  color: var(--text-gray);
+  margin-bottom: 15px;
+}
+
+input {
+  background-color: #26004d;
+  border: 1px solid transparent;
+  padding: 12px 15px;
+  margin: 8px 0;
+  width: 100%;
+  border-radius: 8px;
+  color: white;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+input:focus {
+  border-color: var(--primary-purple);
+}
+
+input::placeholder {
+  color: #777;
+}
+
+a.forgot {
+  color: var(--text-gray);
+  font-size: 14px;
+  text-decoration: none;
+  margin: 15px 0;
+  transition: 0.3s;
+}
+
+a.forgot:hover {
+  color: var(--primary-purple);
+}
+
+button {
+  border-radius: 25px;
+  border: none;
+  background-color: var(--primary-purple);
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 12px 45px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  transition:
+    transform 80ms ease-in,
+    background-color 0.3s;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+button:active {
+  transform: scale(0.95);
+}
+
+button:hover {
+  background-color: var(--secondary-purple);
+}
+
+button.ghost {
+  background-color: transparent;
+  border: 1px solid #ffffff;
+}
+
+.overlay-container {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  transition: transform var(--transition-speed) ease-in-out;
+  z-index: 100;
+}
+
+.container.active .overlay-container {
+  transform: translateX(-100%);
+}
+
+.overlay {
+  background: linear-gradient(to right, #4b0082, var(--primary-purple));
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 0 0;
+  color: #ffffff;
+  position: relative;
+  left: -100%;
+  height: 100%;
+  width: 200%;
+  transform: translateX(0);
+  transition: transform var(--transition-speed) ease-in-out;
+}
+
+.container.active .overlay {
+  transform: translateX(50%);
+}
+
+.overlay-panel {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 0 40px;
+  text-align: center;
+  top: 0;
+  height: 100%;
+  width: 50%;
+  transform: translateX(0);
+  transition: transform var(--transition-speed) ease-in-out;
+}
+
+.overlay-left {
+  transform: translateX(-20%);
+}
+
+.container.active .overlay-left {
+  transform: translateX(0);
+}
+
+.overlay-right {
+  right: 0;
+  transform: translateX(0);
+}
+
+.container.active .overlay-right {
+  transform: translateX(20%);
+}
+
+p {
+  font-size: 14px;
+  font-weight: 200;
+  line-height: 20px;
+  letter-spacing: 0.5px;
+  margin: 20px 0 30px;
+}
+
+#message-box {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 15px 25px;
+  border-radius: 10px;
+  color: white;
+  background: var(--primary-purple);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  display: none;
+  z-index: 1000;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
+
+@media (max-width: 768px) {
+  .container {
+    width: 100%;
+    max-width: 450px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-container {
+    width: 100%;
+    padding: 25px 0;
+    position: relative;
+    transform: none;
+    justify-content: center;
+  }
+
+  .sign-up-container,
+  .sign-in-container {
+    display: none;
+  }
+
+  .container:not(.active) .sign-in-container {
+    display: flex;
+    opacity: 1;
+    z-index: 5;
+  }
+
+  .container.active .sign-up-container {
+    display: flex;
+    opacity: 1;
+    z-index: 5;
+    transform: none;
+  }
+
+  .overlay-container {
+    position: relative;
+    width: 100%;
+    left: 0;
+    transform: none;
+    z-index: 10;
+    background-color: var(--card-bg);
+    padding-bottom: 30px;
+  }
+
+  .container.active .overlay-container {
+    transform: none;
+  }
+
+  .overlay {
+    width: 100%;
+    left: 0;
+    transform: none;
+    background: none;
+  }
+
+  .container.active .overlay {
+    transform: none;
+  }
+
+  .overlay-panel {
+    width: 100%;
+    position: relative;
+    transform: none;
+    padding: 0 20px;
+    display: none;
+  }
+
+  .overlay-panel h1,
+  .overlay-panel p {
+    display: none;
+  }
+
+  .container:not(.active) .overlay-right,
+  .container.active .overlay-left {
+    display: flex;
+  }
+
+  .overlay-panel button.ghost {
+    border: 2px solid var(--primary-purple);
+    color: var(--primary-purple);
+    max-width: 280px;
+    margin: 0;
+  }
+
+  form {
+    justify-content: center;
+  }
+
+  input {
+    max-width: 100%;
+  }
+}

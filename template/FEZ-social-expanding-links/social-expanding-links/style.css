@@ -1,0 +1,150 @@
+/* =========================================
+       Global Styles
+       ========================================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #0a0510;
+  font-family:
+    "Segoe UI",
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+/* =========================================
+       Component Container
+       ========================================= */
+.social-wrapper {
+  display: flex;
+  gap: 15px;
+  padding: 40px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+/* =========================================
+       Button Styling
+       ========================================= */
+.social-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  height: 60px;
+  width: 60px;
+  padding: 20px;
+  border-radius: 50px;
+  text-decoration: none;
+  /* Default state colors */
+  color: #9d8dbb;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.social-btn i {
+  font-size: 22px;
+  text-align: center;
+  z-index: 2;
+  transition:
+    color 0.3s ease,
+    transform 0.5s ease;
+}
+
+.social-btn .btn-text {
+  font-size: 16px;
+  font-weight: 700;
+  white-space: nowrap;
+  margin-left: 15px;
+  opacity: 0;
+  z-index: 2;
+  transform: translateX(-15px);
+  transition: all 0.4s ease;
+}
+
+/* =========================================
+       Global Hover State
+       ========================================= */
+.social-btn:hover {
+  width: 180px;
+  color: #ffffff;
+  /* All text/icons turn white on hover */
+  transform: translateY(-5px);
+}
+
+.social-btn:hover .btn-text {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.social-btn:hover i {
+  transform: rotate(360deg);
+}
+
+/* =========================================
+       Specific Hover (Background & Glow)
+       ========================================= */
+
+.github:hover {
+  background: #333;
+  border-color: #444;
+  box-shadow:
+    0 10px 20px rgba(0, 0, 0, 0.4),
+    0 0 15px rgba(255, 255, 255, 0.1);
+}
+
+.instagram:hover {
+  background: linear-gradient(
+    45deg,
+    #f09433 0%,
+    #e6683c 25%,
+    #dc2743 50%,
+    #cc2366 75%,
+    #bc1888 100%
+  );
+  border-color: #bc1888;
+  box-shadow: 0 10px 20px rgba(188, 24, 136, 0.3);
+}
+
+.linkedin:hover {
+  background: #0077b5;
+  border-color: #0077b5;
+  box-shadow: 0 10px 20px rgba(0, 119, 181, 0.4);
+}
+
+.facebook:hover {
+  background: #1877f2;
+  border-color: #1877f2;
+  box-shadow: 0 10px 20px rgba(24, 119, 242, 0.4);
+}
+
+@media (max-width: 600px) {
+  .social-wrapper {
+    padding: 20px;
+    gap: 10px;
+    flex-direction: column;
+  }
+
+  .social-btn {
+    height: 50px;
+    width: 50px;
+    padding: 15px;
+  }
+
+  .social-btn:hover {
+    width: 150px;
+  }
+}

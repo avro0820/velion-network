@@ -1,0 +1,44 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Check if the user is signed in
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Check if the user has moderator, admin, or owner privileges
+    function hasPowership() {
+      let role = get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role;
+      return role == 'moderator' || role == 'admin' || role == 'owner';
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow read: if isAuthenticated();
+      allow write: if request.auth.uid == userId || hasPowership();
+    }
+
+    // Platforms (Nodes) & Templates
+    match /platforms/{document=**} {
+      allow read: if isAuthenticated();
+      allow write: if hasPowership();
+    }
+
+    match /templates/{document=**} {
+      allow read: if isAuthenticated();
+      allow write: if hasPowership();
+    }
+
+    // Support Chats
+    match /chats/{userId}/messages/{messageId} {
+      allow read, write: if isAuthenticated() && (request.auth.uid == userId || hasPowership());
+    }
+
+    // Posts & Comments (Network Feed)
+    match /posts/{document=**} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+    }
+  }
+}
